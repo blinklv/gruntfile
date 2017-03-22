@@ -1,5 +1,10 @@
 {
-    "name": "gruntfile",
-    "version": "1.0.0",
-    "devDependencies": {}
+  "name": "gruntfile",
+  "version": "1.0.0",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-cssmin": "^2.0.0",
+    "grunt-contrib-uglify": "^2.2.0"
+  }
 }
