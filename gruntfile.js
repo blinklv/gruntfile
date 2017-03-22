@@ -18,13 +18,41 @@ module.exports = function(grunt) {
                     cwd: "css/",
                     src: ["*.css", "!*.min.css"],
                     dest: "css/",
-                    ext: ".min.css"
+                    // I think 'rename' is better than 'ext', sometimes 
+                    // I use 'ext' option which causes some tail information
+                    // to be lost, eg: 'style.1.0.0.css' become 'style.min.css'.
+                    rename: function(dst, src) {
+                        return dst + "/" + src.replace(".css", ".min.css");
+                    }
+                }]
+            }
+        },
+
+        // Minifying JS files.
+        uglify: {
+            options: {
+                compress: {
+                    drop_console: true
+                }
+            },
+            target: {
+                files: [{
+                    expand: true,
+                    cwd: "js/",
+                    src: ["*.js", "!*.min.js"],
+                    dest: "js/",
+                    // Why I use 'rename' option not 'ext' option?
+                    // Please look the configure of 'cssmin'. :)
+                    rename: function(dst, src) {
+                        return dst + "/" + src.replace(".js", ".min.js");
+                    }
                 }]
             }
         }
     });
 
     grunt.loadNpmTasks("grunt-contrib-cssmin");
+    grunt.loadNpmTasks("grunt-contrib-uglify");
 };
 
 
