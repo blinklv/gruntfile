@@ -3,10 +3,11 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2017-03-22
+// Last Change: 2017-03-23
 // Purpose: The gruntfile.js for Web development.
 
 module.exports = function(grunt) {
+
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
 
@@ -31,6 +32,8 @@ module.exports = function(grunt) {
         // Minifying JS files.
         uglify: {
             options: {
+                mangle: false,
+                banner: "<%= create_banner() %>",
                 compress: {
                     drop_console: true
                 }
@@ -48,6 +51,24 @@ module.exports = function(grunt) {
                     }
                 }]
             }
+        },
+
+        // Auxiliary method.
+        create_banner: function() {
+            var str = "";
+            var pkg = this.pkg;
+
+            // If 'pkg.name' is empty, the 'banner' is empty too.
+            if (pkg.name) {
+                str = "/*! " + pkg.name;
+                if (pkg.version) str += " v" + pkg.version;
+                str += " " + grunt.template.today("yyyy-mm-dd");
+                if (pkg.license) str += " | " + pkg.license;
+                if (pkg.url) str += " | " + pkg.url;
+                str += " */";
+            } 
+
+            return str;
         }
     });
 
