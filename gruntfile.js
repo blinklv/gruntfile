@@ -13,6 +13,9 @@ module.exports = function(grunt) {
 
         // Minifying CSS files.
         cssmin: {
+            options: {
+                specialComments: "0"
+            },
             target: {
                 files: [{
                     expand: true,
@@ -53,6 +56,19 @@ module.exports = function(grunt) {
             }
         },
 
+        // Adding a banner information to some files.
+        usebanner: {
+            minify: {
+                options: {
+                    position: "top",
+                    banner: "<%= create_banner() %>"
+                },
+                files: {
+                    src: ["css/*.min.css"]
+                }
+            }
+        },
+
         // Auxiliary method.
         create_banner: function() {
             var str = "";
@@ -74,6 +90,7 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-banner");
 };
 
 
