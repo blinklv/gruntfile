@@ -14,11 +14,11 @@ module.exports = function(grunt) {
         // Concatenate files, but exclude some files of 'min' suffix.
         concat: {
             css: {
-                src: ["css/*.css", "!css/*.min.css"],
+                src: ["css/*.css", "!css/main.css","!css/*.min.css"],
                 dest: "css/main.css"
             },
             js: {
-                src: ["js/*.js", "!js/*.min.js"],
+                src: ["js/*.js", "!js/main.js", "!js/*.min.js"],
                 dest: "js/main.js"
             }
         },
@@ -26,18 +26,8 @@ module.exports = function(grunt) {
         // Minifying CSS files.
         cssmin: {
             target: {
-                files: [{
-                    expand: true,
-                    cwd: "css/",
-                    src: ["*.css", "!*.min.css"],
-                    dest: "css/",
-                    // I think 'rename' is better than 'ext', sometimes 
-                    // I use 'ext' option which causes some tail information
-                    // to be lost, eg: 'style.1.0.0.css' become 'style.min.css'.
-                    rename: function(dst, src) {
-                        return dst + "/" + src.replace(".css", ".min.css");
-                    }
-                }]
+                src: "css/main.css",
+                dest: "css/main.min.css"
             }
         },
 
@@ -50,32 +40,23 @@ module.exports = function(grunt) {
                 }
             },
             target: {
-                files: [{
-                    expand: true,
-                    cwd: "js/",
-                    src: ["*.js", "!*.min.js"],
-                    dest: "js/",
-                    // Why I use 'rename' option not 'ext' option?
-                    // Please look the configure of 'cssmin'. :)
-                    rename: function(dst, src) {
-                        return dst + "/" + src.replace(".js", ".min.js");
-                    }
-                }]
+                src: "js/main.js",
+                dest: "js/main.min.js"
             }
         },
 
 
         // Adding a banner information to some files.
         usebanner: {
-            css_js: {
+            main: {
                 options: {
                     position: "top",
                     banner: "<%= create_banner() %>"
                 },
                 files: {
-                    src: ["css/*.min.css", "js/*.min.js"]
+                    src: ["css/main.min.css", "js/main.min.js"]
                 }
-            },
+            }
         },
 
         // Auxiliary method.
@@ -97,10 +78,11 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-uglify");
-    grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-banner");
+    grunt.registerTask("default", ["concat", "cssmin", "uglify", "usebanner"]);
 };
 
 
