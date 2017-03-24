@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2017-03-23
+// Last Change: 2017-03-24
 // Purpose: The gruntfile.js for Web development.
 
 module.exports = function(grunt) {
@@ -11,11 +11,20 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
 
+        // Concatenate files, but exclude some files of 'min' suffix.
+        concat: {
+            css: {
+                src: ["css/*.css", "!css/*.min.css"],
+                dest: "css/main.css"
+            },
+            js: {
+                src: ["js/*.js", "!js/*.min.js"],
+                dest: "js/main.js"
+            }
+        },
+
         // Minifying CSS files.
         cssmin: {
-            options: {
-                specialComments: "0"
-            },
             target: {
                 files: [{
                     expand: true,
@@ -36,7 +45,6 @@ module.exports = function(grunt) {
         uglify: {
             options: {
                 mangle: false,
-                banner: "<%= create_banner() %>",
                 compress: {
                     drop_console: true
                 }
@@ -56,17 +64,18 @@ module.exports = function(grunt) {
             }
         },
 
+
         // Adding a banner information to some files.
         usebanner: {
-            minify: {
+            css_js: {
                 options: {
                     position: "top",
                     banner: "<%= create_banner() %>"
                 },
                 files: {
-                    src: ["css/*.min.css"]
+                    src: ["css/*.min.css", "js/*.min.js"]
                 }
-            }
+            },
         },
 
         // Auxiliary method.
@@ -90,6 +99,7 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-banner");
 };
 
