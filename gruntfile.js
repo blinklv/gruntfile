@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2017-03-24
+// Last Change: 2017-03-31
 // Purpose: The gruntfile.js for Web development.
 
 module.exports = function(grunt) {
@@ -20,6 +20,19 @@ module.exports = function(grunt) {
             js: {
                 src: ["js/*.js", "!js/main.js", "!js/*.min.js"],
                 dest: "js/main.js"
+            }
+        },
+
+        // Compiling SASS files to CSS files.
+        sass: {
+            target: {
+                files: [{
+                    expand: true,
+                    cwd: "sass/",
+                    src: ["*.sass", "*.scss"],
+                    dest: "css/",
+                    ext: ".css"
+                }]
             }
         },
 
@@ -78,6 +91,7 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.loadNpmTasks("grunt-contrib-sass");
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-uglify");
