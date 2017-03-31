@@ -40,7 +40,7 @@ module.exports = function(grunt) {
         cssmin: {
             target: {
                 src: "css/main.css",
-                dest: "css/main.min.css"
+                dest: "build/main.min.css"
             }
         },
 
@@ -54,7 +54,7 @@ module.exports = function(grunt) {
             },
             target: {
                 src: "js/main.js",
-                dest: "js/main.min.js"
+                dest: "build/main.min.js"
             }
         },
 
@@ -67,7 +67,7 @@ module.exports = function(grunt) {
                     banner: "<%= create_banner() %>"
                 },
                 files: {
-                    src: ["css/main.min.css", "js/main.min.js"]
+                    src: ["build/main.min.css", "build/main.min.js"]
                 }
             }
         },
@@ -96,7 +96,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-banner");
-    grunt.registerTask("default", ["concat", "cssmin", "uglify", "usebanner"]);
+    grunt.registerTask("default", ["sass", "concat", "cssmin", "uglify", "usebanner"]);
 };
 
 
