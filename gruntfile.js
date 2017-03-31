@@ -3,13 +3,29 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2017-03-31
+// Last Change: 2017-04-01
 // Purpose: The gruntfile.js for Web development.
 
 module.exports = function(grunt) {
 
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
+
+        // Watch all files.
+        watch: {
+            sass: {
+                files: ["sass/*.sass", "sass/*.scss"],
+                tasks: ["sass", "concat:css", "cssmin", "usebanner:css"]
+            },
+            css: {
+                files: ["css/*.css", "!css/main.css", "!css/*.min.css"],
+                tasks: ["concat:css", "cssmin", "usebanner:css"]
+            },
+            js: {
+                files: ["js/*.js", "!js/main.js", "!js/*.min.js"],
+                tasks: ["concat:js", "uglify", "usebanner:js"]
+            }
+        },
 
         // Concatenate files, but exclude some files of 'min' suffix.
         concat: {
@@ -61,14 +77,15 @@ module.exports = function(grunt) {
 
         // Adding a banner information to some files.
         usebanner: {
-            main: {
-                options: {
-                    position: "top",
-                    banner: "<%= create_banner() %>"
-                },
-                files: {
-                    src: ["build/main.min.css", "build/main.min.js"]
-                }
+            options: {
+                position: "top",
+                banner: "<%= create_banner() %>"
+            },
+            css: {
+                src: "build/main.min.css"
+            },
+            js: {
+                src: "build/main.min.js"
             }
         },
 
@@ -91,6 +108,7 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-sass");
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
