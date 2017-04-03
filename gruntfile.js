@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2017-04-01
+// Last Change: 2017-04-04
 // Purpose: The gruntfile.js for Web development.
 
 module.exports = function(grunt) {
@@ -23,8 +23,26 @@ module.exports = function(grunt) {
             },
             js: {
                 files: ["js/*.js", "!js/main.js", "!js/*.min.js"],
-                tasks: ["concat:js", "uglify", "usebanner:js"]
+                tasks: ["jshint:before_concat", "concat:js", "uglify", "usebanner:js"]
+            },
+            mainjs: {
+                files: "js/main.js",
+                tasks: ["jshint:after_concat"]
             }
+        },
+
+        jshint: {
+            options: {
+                curly: true,
+                eqeqeq: true,
+                eqnull: true,
+                browser: true,
+                globals: {
+                    jQuery: true
+                },
+            },
+            before_concat: ["js/*.js", "!js/main.js", "!js/*.min.js"],
+            after_concat: ["js/main.js"]
         },
 
         // Concatenate files, but exclude some files of 'min' suffix.
@@ -109,12 +127,13 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-sass");
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-banner");
-    grunt.registerTask("default", ["sass", "concat", "cssmin", "uglify", "usebanner"]);
+    grunt.registerTask("default", ["jshint:before_concat", "sass", "concat", "jshint:after_concat", "cssmin", "uglify", "usebanner"]);
 };
 
 
