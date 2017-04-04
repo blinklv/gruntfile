@@ -18,12 +18,31 @@ module.exports = function(grunt) {
                 tasks: ["sass", "concat:css"]
             },
             css: {
-                files: ["css/*.css", "!css/main.css", "!css/*.min.css"],
+                files: ["css/*.css", "!css/*.min.css"],
                 tasks: ["concat:css"]
             },
             js: {
                 files: ["js/*.js", "!js/main.js","!js/*.min.js"],
                 tasks: ["concat:js", "jshint"]
+            }
+        },
+
+        // Copy files from vendor directory to build/devel directory.
+        copy: {
+            target: {
+                files: [{
+                    expand: true,
+                    flatten: true,
+                    cwd: "vendor/",
+                    src: ["**/*.css", "!**/*.min.css"],
+                    dest: "build/devel/css/",
+                },{
+                    expand: true,
+                    flatten: true,
+                    cwd: "vendor/",
+                    src: ["**/*.js", "!**/*.min.js"],
+                    dest: "build/devel/js/",
+                }]
             }
         },
 
@@ -44,11 +63,11 @@ module.exports = function(grunt) {
         concat: {
             css: {
                 src: ["css/*.css", "!css/main.css","!css/*.min.css"],
-                dest: "css/main.css"
+                dest: "build/devel/css/main.css"
             },
             js: {
                 src: ["js/*.js", "!js/main.js", "!js/*.min.js"],
-                dest: "js/main.js"
+                dest: "build/devel/js/main.js"
             }
         },
 
@@ -65,11 +84,27 @@ module.exports = function(grunt) {
             }
         },
 
+        // Remove unused CSS.
+        uncss: {
+          target: {
+            expand: true,
+            cwd: "build/devel/",
+            src: "**/*.html",
+            dest: "css/tidy.css"
+          }
+        },
+
         // Minifying CSS files.
         cssmin: {
             target: {
-                src: "css/main.css",
-                dest: "build/css/main.min.css"
+                files: [{
+                    expand: true,
+                    flatten: true,
+                    src: ["css/main.css", "vendor/**/*.css", "!vendor/**/*.min.css"],
+                    dest: "build/css/",
+                    ext: ".min.css",
+                    extDot: "last"
+                }]
             }
         },
 
@@ -81,9 +116,20 @@ module.exports = function(grunt) {
                     drop_console: true
                 }
             },
-            target: {
+            main: {
                 src: "js/main.js",
                 dest: "build/js/main.min.js"
+            },
+            vendor: {
+                files: [{
+                    expand: true,
+                    flatten: true,
+                    cwd: "vendor/",
+                    src: ["**/*.js", "!**/*.min.js"],
+                    dest: "build/js/",
+                    ext: ".min.js",
+                    extDot: "last"
+                }]
             }
         },
 
@@ -123,6 +169,8 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-jshint");
+    grunt.loadNpmTasks("grunt-contrib-copy");
+    grunt.loadNpmTasks("grunt-uncss");
     grunt.loadNpmTasks("grunt-contrib-sass");
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
