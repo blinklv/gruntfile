@@ -15,19 +15,15 @@ module.exports = function(grunt) {
         watch: {
             sass: {
                 files: ["sass/*.sass", "sass/*.scss"],
-                tasks: ["sass", "concat:css", "cssmin", "usebanner:css"]
+                tasks: ["sass", "concat:css"]
             },
             css: {
                 files: ["css/*.css", "!css/main.css", "!css/*.min.css"],
-                tasks: ["concat:css", "cssmin", "usebanner:css"]
+                tasks: ["concat:css"]
             },
             js: {
-                files: ["js/*.js", "!js/main.js", "!js/*.min.js"],
-                tasks: ["jshint:before_concat", "concat:js", "uglify", "usebanner:js"]
-            },
-            mainjs: {
-                files: "js/main.js",
-                tasks: ["jshint:after_concat"]
+                files: ["js/*.js", "!js/main.js","!js/*.min.js"],
+                tasks: ["concat:js", "jshint"]
             }
         },
 
@@ -41,8 +37,7 @@ module.exports = function(grunt) {
                     jQuery: true
                 },
             },
-            before_concat: ["gruntfile.js", "js/*.js", "!js/main.js", "!js/*.min.js"],
-            after_concat: ["js/main.js"]
+            target: ["gruntfile.js", "js/*.js", "!js/main.js"]
         },
 
         // Concatenate files, but exclude some files of 'min' suffix.
@@ -74,7 +69,7 @@ module.exports = function(grunt) {
         cssmin: {
             target: {
                 src: "css/main.css",
-                dest: "build/main.min.css"
+                dest: "build/css/main.min.css"
             }
         },
 
@@ -88,7 +83,7 @@ module.exports = function(grunt) {
             },
             target: {
                 src: "js/main.js",
-                dest: "build/main.min.js"
+                dest: "build/js/main.min.js"
             }
         },
 
@@ -100,10 +95,10 @@ module.exports = function(grunt) {
                 banner: "<%= create_banner() %>"
             },
             css: {
-                src: "build/main.min.css"
+                src: "build/css/main.min.css"
             },
             js: {
-                src: "build/main.min.js"
+                src: "build/js/main.min.js"
             }
         },
 
@@ -133,7 +128,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-banner");
-    grunt.registerTask("default", ["jshint:before_concat", "sass", "concat", "jshint:after_concat", "cssmin", "uglify", "usebanner"]);
+    grunt.registerTask("default", ["sass", "concat", "jshint", "cssmin", "uglify", "usebanner"]);
 };
 
 
