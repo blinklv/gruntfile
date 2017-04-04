@@ -29,7 +29,7 @@ module.exports = function(grunt) {
 
         // Copy files from vendor directory to build/devel directory.
         copy: {
-            target: {
+            devel: {
                 files: [{
                     expand: true,
                     flatten: true,
@@ -42,6 +42,17 @@ module.exports = function(grunt) {
                     cwd: "vendor/",
                     src: ["**/*.js", "!**/*.min.js"],
                     dest: "build/devel/js/",
+                },{
+                    expand: true,
+                    src: ["index.html", "html/**/*.html"],
+                    dest: "build/devel/"
+                }]
+            },
+            release: {
+                files: [{
+                    expand: true,
+                    src: ["index.html", "html/**/*.html"],
+                    dest: "build/release"
                 }]
             }
         },
@@ -56,7 +67,7 @@ module.exports = function(grunt) {
                     jQuery: true
                 },
             },
-            target: ["gruntfile.js", "js/*.js", "!js/main.js"]
+            target: ["gruntfile.js", "js/*.js", "build/devel/js/main.js"]
         },
 
         // Concatenate files, but exclude some files of 'min' suffix.
@@ -86,25 +97,18 @@ module.exports = function(grunt) {
 
         // Remove unused CSS.
         uncss: {
-          target: {
-            expand: true,
-            cwd: "build/devel/",
-            src: "**/*.html",
-            dest: "css/tidy.css"
-          }
+            target: {
+                files: {
+                    "build/devel/css/tidy.css": "build/devel/**/*.html"
+                }
+            }
         },
 
         // Minifying CSS files.
         cssmin: {
             target: {
-                files: [{
-                    expand: true,
-                    flatten: true,
-                    src: ["css/main.css", "vendor/**/*.css", "!vendor/**/*.min.css"],
-                    dest: "build/css/",
-                    ext: ".min.css",
-                    extDot: "last"
-                }]
+                src: "build/devel/css/tidy.css",
+                dest: "build/release/css/main.min.css"
             }
         },
 
@@ -116,17 +120,13 @@ module.exports = function(grunt) {
                     drop_console: true
                 }
             },
-            main: {
-                src: "js/main.js",
-                dest: "build/js/main.min.js"
-            },
-            vendor: {
+            target: {
                 files: [{
                     expand: true,
                     flatten: true,
-                    cwd: "vendor/",
-                    src: ["**/*.js", "!**/*.min.js"],
-                    dest: "build/js/",
+                    cwd: "build/devel/js/",
+                    src: "**/*.js",
+                    dest: "build/release/js/",
                     ext: ".min.js",
                     extDot: "last"
                 }]
@@ -141,10 +141,10 @@ module.exports = function(grunt) {
                 banner: "<%= create_banner() %>"
             },
             css: {
-                src: "build/css/main.min.css"
+                src: "build/devel/css/main.css"
             },
             js: {
-                src: "build/js/main.min.js"
+                src: "build/devel/js/main.js"
             }
         },
 
@@ -176,7 +176,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-banner");
-    grunt.registerTask("default", ["sass", "concat", "jshint", "cssmin", "uglify", "usebanner"]);
+
+    grunt.registerTask("devel", ["sass", "concat", "jshint", "usebanner", "copy:devel"]);
+    grunt.registerTask("release", ["devel", "uncss", "cssmin", "uglify", "copy:release"]);
+    grunt.registerTask("default", ["release"]);
 };
 
 
