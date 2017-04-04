@@ -41,7 +41,7 @@ module.exports = function(grunt) {
                     jQuery: true
                 },
             },
-            before_concat: ["js/*.js", "!js/main.js", "!js/*.min.js"],
+            before_concat: ["gruntfile.js", "js/*.js", "!js/main.js", "!js/*.min.js"],
             after_concat: ["js/main.js"]
         },
 
@@ -115,10 +115,10 @@ module.exports = function(grunt) {
             // If 'pkg.name' is empty, the 'banner' is empty too.
             if (pkg.name) {
                 str = "/*! " + pkg.name;
-                if (pkg.version) str += " v" + pkg.version;
+                str = pkg.version ? str + " v" + pkg.version : str;
                 str += " " + grunt.template.today("yyyy-mm-dd");
-                if (pkg.license) str += " | " + pkg.license;
-                if (pkg.url) str += " | " + pkg.url;
+                str = pkg.license ? str + " | " + pkg.license : str;
+                str = pkg.url ? str +  " | " + pkg.url : str;
                 str += " */";
             } 
 
