@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2017-04-04
+// Last Change: 2017-04-08
 // Purpose: The gruntfile.js for Web development.
 
 module.exports = function(grunt) {
@@ -27,7 +27,7 @@ module.exports = function(grunt) {
             }
         },
 
-        // Copy files from vendor directory to build/devel directory.
+        // Copy files to build/devel directory.
         copy: {
             devel: {
                 files: [{
@@ -53,6 +53,37 @@ module.exports = function(grunt) {
                     expand: true,
                     src: ["index.html", "html/**/*.html"],
                     dest: "build/release"
+                }]
+            }
+        },
+
+        // Generate multi-resolution images.
+        responsive_images: {
+            target: {
+                options: {
+                    engine: "im",
+                    sizes: [{
+                        name: "s",
+                        width: 320
+                    },{
+                        name: "m",
+                        width: 480
+                    },{
+                        name: "l",
+                        width: 600,
+                    },{
+                        name: "xl",
+                        width: 1024
+                    },{
+                        name: "xxl",
+                        width: 1440
+                    }]
+                },
+                files: [{
+                    expand: true,
+                    cwd: "img/",
+                    src: ["**/*.{gif,jpg,jpeg,png}"],
+                    dest: "build/devel/img/"
                 }]
             }
         },
@@ -168,6 +199,7 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks("grunt-responsive-images");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-uncss");
