@@ -74,19 +74,24 @@ module.exports = function(grunt) {
                     engine: "im",
                     sizes: [{
                         name: "s",
-                        width: 320
+                        width: 320,
+                        quality: 70
                     },{
                         name: "m",
-                        width: 480
+                        width: 480,
+                        quality: 70
                     },{
                         name: "l",
                         width: 600,
+                        quality: 70
                     },{
                         name: "xl",
-                        width: 1024
+                        width: 1024,
+                        quality: 70
                     },{
                         name: "xxl",
-                        width: 1440
+                        width: 1440,
+                        quality: 70
                     }]
                 },
                 files: [{
