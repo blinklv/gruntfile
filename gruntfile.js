@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2017-04-09
+// Last Change: 2017-04-30
 // Purpose: The gruntfile.js for Web development.
 
 module.exports = function(grunt) {
@@ -24,6 +24,10 @@ module.exports = function(grunt) {
             js: {
                 files: ["js/*.js", "!js/main.js","!js/*.min.js"],
                 tasks: ["concat:js", "jshint"]
+            },
+            html: {
+                files: ["index.html", "html/**/*.html"],
+                tasks: ["copy:devel"]
             },
             img: {
                 files: ["img/**/*.{gif,jpg,jpeg,png}"],
