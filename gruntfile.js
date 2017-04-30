@@ -30,7 +30,7 @@ module.exports = function(grunt) {
                 tasks: ["copy:devel"]
             },
             img: {
-                files: ["img/**/*.{gif,jpg,jpeg,png}"],
+                files: ["img/**/*.{gif,jpg,jpeg,png,svg}"],
                 tasks: ["responsive_images"]
             }
         },
@@ -73,7 +73,7 @@ module.exports = function(grunt) {
 
         // Generate multi-resolution images.
         responsive_images: {
-            target: {
+            normal: {
                 options: {
                     engine: "im",
                     sizes: [{
@@ -101,7 +101,32 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: "img/",
-                    src: ["**/*.{gif,jpg,jpeg,png}"],
+                    src: ["**/*.{gif,jpg,jpeg,png}","!**/logo.{gif,jpg,jpeg,png}","!**/*{-,_}logo.{gif,jpg,jpeg,png}"],
+                    dest: "build/devel/img/"
+                }]
+            },
+
+            // The shape of orignal logo picture is preferably square.
+            logo: {
+                options: {
+                    engine: "im",
+                    sizes: [{
+                        name: "s",
+                        width: 48
+                    },{
+                        name: "m",
+                        width: 128,
+                        quality: 90
+                    },{
+                        name: "l",
+                        width: 256,
+                        quality: 70
+                    }]
+                },
+                files: [{
+                    expand: true,
+                    cwd: "img/",
+                    src: ["**/logo.{gif,jpg,jpeg,png}", "**/*{-,_}logo.{gif,jpg,jpeg,png}"],
                     dest: "build/devel/img/"
                 }]
             }
