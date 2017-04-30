@@ -228,6 +228,11 @@ module.exports = function(grunt) {
             }
         },
 
+        clean: {
+            devel: ["build/devel"],
+            release: ["build/release"]
+        },
+
         // Auxiliary method.
         create_banner: function() {
             var str = "";
@@ -256,10 +261,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-banner");
 
     grunt.registerTask("devel", ["sass", "concat", "jshint", "usebanner", "responsive_images", "copy:devel"]);
     grunt.registerTask("release", ["devel", "uncss", "cssmin", "uglify", "copy:release"]);
+    grunt.registerTask("rebuild-devel", ["clean:devel", "devel"]);
+    grunt.registerTask("rebuild", ["clean", "release"]);
     grunt.registerTask("default", ["release"]);
 };
 
