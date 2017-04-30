@@ -228,7 +228,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-banner");
 
-    grunt.registerTask("devel", ["sass", "concat", "jshint", "usebanner", "copy:devel"]);
+    grunt.registerTask("devel", ["sass", "concat", "jshint", "usebanner", "responsive_images", "copy:devel"]);
     grunt.registerTask("release", ["devel", "uncss", "cssmin", "uglify", "copy:release"]);
     grunt.registerTask("default", ["release"]);
 };
