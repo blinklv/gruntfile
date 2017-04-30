@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2017-04-30
+// Last Change: 2017-05-01
 // Purpose: The gruntfile.js for Web development.
 
 module.exports = function(grunt) {
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
             },
             img: {
                 files: ["img/**/*.{gif,jpg,jpeg,png,svg}"],
-                tasks: ["responsive_images"]
+                tasks: ["responsive_images", "copy:devel"]
             }
         },
 
@@ -54,6 +54,11 @@ module.exports = function(grunt) {
                     expand: true,
                     src: ["index.html", "html/**/*.html"],
                     dest: "build/devel/"
+                },{
+                    expand: true,
+                    cwd: "img/",
+                    src: ["**/*.svg"],
+                    dest: "build/devel/img/"
                 }]
             },
             release: {
@@ -65,7 +70,7 @@ module.exports = function(grunt) {
                 },{
                     expand: true,
                     cwd: "build/devel/img/",
-                    src: ["**/*.{gif,jpg,jpeg,png}"],
+                    src: ["**/*.{gif,jpg,jpeg,png,svg}"],
                     dest: "build/release/img/"
                 }]
             }
