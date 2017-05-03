@@ -63,7 +63,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: "font/",
                     src: ["**/*.woff", "**/*.woff2"],
-                    dest: "build/devel/font/"
+                    dest: "build/devel/css/font/"
                 }]
             },
             release: {
@@ -79,9 +79,9 @@ module.exports = function(grunt) {
                     dest: "build/release/img/"
                 },{
                     expand: true,
-                    cwd: "build/devel/font/",
+                    cwd: "build/devel/css/font/",
                     src: ["**/*.woff", "**/*.woff2"],
-                    dest: "build/release/font/"
+                    dest: "build/release/css/font/"
                 }]
             }
         },
