@@ -64,11 +64,6 @@ module.exports = function(grunt) {
                     cwd: "font/",
                     src: ["**/*.woff", "**/*.woff2"],
                     dest: "build/devel/font/"
-                },{
-                    expand: true,
-                    cwd: "font/",
-                    src: ["**/*.css"],
-                    dest: "build/devel/css/font/"
                 }]
             },
             release: {
@@ -168,7 +163,7 @@ module.exports = function(grunt) {
         // Concatenate files, but exclude some files of 'min' suffix.
         concat: {
             css: {
-                src: ["css/*.css", "!css/main.css","!css/*.min.css"],
+                src: ["css/*.css", "font/*.css", "!css/main.css","!css/*.min.css"],
                 dest: "build/devel/css/main.css"
             },
             js: {
