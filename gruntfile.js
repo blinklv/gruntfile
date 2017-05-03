@@ -64,6 +64,11 @@ module.exports = function(grunt) {
                     cwd: "font/",
                     src: ["**/*.woff", "**/*.woff2"],
                     dest: "build/devel/font/"
+                },{
+                    expand: true,
+                    cwd: "font/",
+                    src: ["**/*.css"],
+                    dest: "build/devel/css/font/"
                 }]
             },
             release: {
