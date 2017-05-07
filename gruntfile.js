@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2017-05-07
+// Last Change: 2017-05-08
 // Purpose: The gruntfile.js for Web development.
 
 module.exports = function(grunt) {
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
                 tasks: ["responsive_images", "copy:devel"]
             },
             font: {
-                files: ["font/*.{woff, woff2}"],
+                files: ["font/*.{woff,woff2}"],
                 tasks: ["copy:devel"]
             }
         },
@@ -66,7 +66,7 @@ module.exports = function(grunt) {
                 },{
                     expand: true,
                     cwd: "font/",
-                    src: ["**/*.{woff, woff2}"],
+                    src: ["**/*.{woff,woff2}"],
                     dest: "build/devel/css/font/"
                 }]
             },
