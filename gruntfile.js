@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2017-05-05
+// Last Change: 2017-05-07
 // Purpose: The gruntfile.js for Web development.
 
 module.exports = function(grunt) {
@@ -81,11 +81,6 @@ module.exports = function(grunt) {
                     cwd: "build/devel/css/font/",
                     src: ["**/*.woff", "**/*.woff2"],
                     dest: "build/release/css/font/"
-                },{
-                    expand: true,
-                    cwd: "build/devel/",
-                    src: ["index.html", "html/*.html"],
-                    dest: "build/release/"
                 }]
             }
         },
@@ -227,15 +222,32 @@ module.exports = function(grunt) {
             }
         },
 
+        // Minifying HTML files.
+        htmlmin: {
+            options: {
+                removeComments: true,
+                collapseWhitespace: true
+            },
+            target: {
+                files: [{
+                    expand: true,
+                    cwd: "build/devel/",
+                    src: ["index.html", "html/*.html"],
+                    dest: "build/release/"
+                }]
+            }
+        },
+
         replace: {
             release: {
                 src: ["build/release/index.html", "build/release/html/*.html"],
                 overwrite: true,
+                // NOTICE: The asterisk(*) wildcard should be in non-greedy mode.
                 replacements: [{
-                    from: /href="(.*)\.css"/g,
+                    from: /href="(.*?)\.css"/g,
                     to: 'href="$1.min.css"'
                 },{
-                    from: /src="(.*)\.js"/g,
+                    from: /src="(.*?)\.js"/g,
                     to: 'src="$1.min.js"'
                 }]
             }
@@ -288,12 +300,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-contrib-htmlmin");
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-text-replace");
     grunt.loadNpmTasks("grunt-banner");
 
     grunt.registerTask("devel", ["sass", "concat", "jshint", "usebanner", "responsive_images", "copy:devel"]);
-    grunt.registerTask("release", ["devel", "uncss", "cssmin", "uglify", "copy:release", "replace:release"]);
+    grunt.registerTask("release", ["devel", "uncss", "cssmin", "uglify", "copy:release",  "htmlmin", "replace:release"]);
     grunt.registerTask("rebuild-devel", ["clean:devel", "devel"]);
     grunt.registerTask("rebuild", ["clean", "release"]);
     grunt.registerTask("default", ["release"]);
