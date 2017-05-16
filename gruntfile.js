@@ -36,6 +36,10 @@ module.exports = function(grunt) {
             font: {
                 files: ["font/*.{woff,woff2}"],
                 tasks: ["copy:devel"]
+            },
+            pug: {
+                files: ["index.pug", "pug/**/*.pug"],
+                tasks: ["pug"]
             }
         },
 
