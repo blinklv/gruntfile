@@ -258,11 +258,15 @@ module.exports = function(grunt) {
                     pretty: true,
                     data: function(dest, src) {
                       var files = get_files();
-                      files.img.description = Object.keys(files.img.description).reduce(function(obj, i){
-                        var key = files.img.description[i];
-                        obj[key] = grunt.file.read("img/description/" + key);
-                        return obj;
-                      }, {});
+
+                      if ( files.img && files.img.description ) {
+                          files.img.description = Object.keys(files.img.description).reduce(function(obj, i){
+                            var key = files.img.description[i];
+                            obj[key] = grunt.file.read("img/description/" + key);
+                            return obj;
+                          }, {});
+                      }
+
                       return {
                           files: files
                       };
