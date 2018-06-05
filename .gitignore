@@ -1,0 +1,9 @@
+# Ignore all files in directory and hidden files except 
+# for LICENSE, README.md, .gitignore, gruntfile.js and package.josn
+/*
+.*
+!/gruntfile.js
+!/package.json
+!/README.md
+!/LICENSE
+!/.gitignore
