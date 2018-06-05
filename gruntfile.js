@@ -32,6 +32,21 @@ module.exports = function(grunt) {
             devel: {
                 // Copy files from the working directory and its subdirectory to build/devel
                 // directory. (build is a subdirectory of your working directory)
+                src: [
+                    "index.html", "html/**/*.html",
+                    "css/**/*.{css,css.map}", "!css/**/*.min.css",
+                    "js/**/*.js", "!js/**/*.min.js",
+                    "font/**/*.{woff,woff2,eot,ttf,otf,svg}",
+                    // For bitmap, we need to resize and compress them. But for vector 
+                    // images, we copy them to the destination directory directly.
+                    "img/**/*.svg",
+
+                    // Because the vendor directory contains third party resources. It's
+                    // hard to control their content, so the current strategy is copying
+                    // almost all files (except for some compress files) to the dest.
+                    "vendor/**", "!vendor/**/*.min.*"
+                ],
+                dest: "build/devel/"
             },
             release: {
             }
@@ -83,8 +98,8 @@ module.exports = function(grunt) {
             files: {
                 // Handle all specified format images in the 'img/' subdirectory and all
                 // of its subdirectories. Move the results to 'build/devel/img/' dir.
-                src: ["img/**/*.{jpg,jpeg,png,gif,webp}"],
-                dest: "build/devel/img/"
+                src: "img/**/*.{jpg,jpeg,png,gif,webp}",
+                dest: "build/devel/"
             }
         },
     });
