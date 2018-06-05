@@ -53,51 +53,52 @@ module.exports = function(grunt) {
         },
 
         responsive_images: {
-            // An options property may be specified to override built-in defaults.
-            // In addition, each target may have an options property which is specific 
-            // to that target. Target-level options will override task-level options.
-            options: {
-                // Chooses which graphics engine to use when resizing images. To use 
-                // GraphicsMagick, set this to 'gm'. To use ImageMagick, set this to
-                // 'im'. 
-                engine: "im",
+            target: {
+                // An options property may be specified to override built-in defaults.
+                // In addition, each target may have an options property which is specific 
+                // to that target. Target-level options will override task-level options.
+                options: {
+                    // Chooses which graphics engine to use when resizing images. To use 
+                    // GraphicsMagick, set this to 'gm'. To use ImageMagick, set this to
+                    // 'im'. 
+                    engine: "im",
 
-                // Only process files that do not already exist in the destination directory.
-                newFilesOnly: true,
+                    // Only process files that do not already exist in the destination directory.
+                    newFilesOnly: true,
 
-                // An array of objects containing the sizes and settings we want to resize
-                // our image to.
-                sizes: [{
-                    // If a name is specified, then the file will be suffixed with this name.
-                    // eg: my-image-s.jpg, your-image-xl.png.
-                    name: "s",
-                    width: 320,
+                    // An array of objects containing the sizes and settings we want to resize
+                    // our image to.
+                    sizes: [{
+                        // If a name is specified, then the file will be suffixed with this name.
+                        // eg: my-image-s.jpg, your-image-xl.png.
+                        name: "s",
+                        width: 320,
 
-                    // JPEG format only. The quality of the image, 100 being the highest
-                    // quality and 1 being the lowest.
-                    quality: 70
-                },{
-                    name: "m",
-                    width: 480,
-                    quality: 70
-                },{
-                    name: "l",
-                    width: 720,
-                    quality: 70
-                },{
-                    name: "xl",
-                    width: 1024,
-                    quality: 70
-                },{
-                    name: "xxl",
-                    width: 1440,
-                    quality: 70
-                }]
-            },
+                        // JPEG format only. The quality of the image, 100 being the highest
+                        // quality and 1 being the lowest.
+                        quality: 70
+                    },{
+                        name: "m",
+                        width: 480,
+                        quality: 70
+                    },{
+                        name: "l",
+                        width: 720,
+                        quality: 70
+                    },{
+                        name: "xl",
+                        width: 1024,
+                        quality: 70
+                    },{
+                        name: "xxl",
+                        width: 1440,
+                        quality: 70
+                    }]
+                },
 
-            files: {
                 // Handle all specified format images in the 'img/' subdirectory and all
                 // of its subdirectories. Move the results to 'build/devel/img/' dir.
+                expand: true,
                 src: "img/**/*.{jpg,jpeg,png,gif,webp}",
                 dest: "build/devel/"
             }
