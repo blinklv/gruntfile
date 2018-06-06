@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2018-06-05
+// Last Change: 2018-06-06
 //
 // The gruntfile.js for my Web development.  Many settings are personalized for me, but
 // how it works I will explain in README.md file.  So If you like it, you can copy this 
@@ -52,8 +52,28 @@ module.exports = function(grunt) {
             }
         },
 
+        // Compile Sass to CSS.
+        sass: {
+            devel: {
+                options: {
+                  // Output style: expanded is a more typical human-made CSS style, with each
+                  // property and rule taking up one line. Although this style takes up many
+                  // spaces, it's easier to debug and the cssmin task will reduce its space
+                  // in the release version.
+                  style: "expanded"
+                },
+                expand: true,
+                cwd: "sass/",
+                src: "**/*.{sass,scss}",
+                dest: "build/devel/css/",
+
+                // Replace any existing extension with '.css' in generated path.
+                ext: ".css"
+            }
+        },
+
         responsive_images: {
-            target: {
+            devel: {
                 // An options property may be specified to override built-in defaults.
                 // In addition, each target may have an options property which is specific 
                 // to that target. Target-level options will override task-level options.
@@ -107,5 +127,6 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-responsive-images");
+    grunt.loadNpmTasks("grunt-contrib-sass");
 };
 
