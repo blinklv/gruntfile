@@ -52,13 +52,39 @@ module.exports = function(grunt) {
             }
         },
 
+        // Compile Pug to HTML.
+        pug: {
+            devel: {
+                options: {
+                    // Output indented HTML. It's easier to debug. We don't concern about
+                    // how many spaces it takes up, because the htmlmin task will reduce
+                    // its size in the release version.
+                    pretty: true
+                },
+                files: [{
+                    expand: true,
+                    src: "index.pug",
+                    dest: "build/devel/",
+                    ext: ".html",
+                    extDot: "last"
+                },{
+                    expand: true,
+                    cwd: "pug/",
+                    src: "**/*.pug",
+                    dest: "build/devel/html/",
+                    ext: ".html",
+                    extDot: "last"
+                }]
+            }
+        },
+
         // Compile Sass to CSS.
         sass: {
             devel: {
                 options: {
                   // Output style: expanded is a more typical human-made CSS style, with each
                   // property and rule taking up one line. Although this style takes up many
-                  // spaces, it's easier to debug and the cssmin task will reduce its space
+                  // spaces, it's easier to debug and the cssmin task will reduce its size 
                   // in the release version.
                   style: "expanded"
                 },
@@ -68,7 +94,11 @@ module.exports = function(grunt) {
                 dest: "build/devel/css/",
 
                 // Replace any existing extension with '.css' in generated path.
-                ext: ".css"
+                ext: ".css",
+
+                // Used to indicate where the period indicating the extension is located. 
+                // 'last' means the exntension begins after the last period.
+                extDot: "last"
             }
         },
 
@@ -127,6 +157,7 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-responsive-images");
+    grunt.loadNpmTasks("grunt-contrib-pug");
     grunt.loadNpmTasks("grunt-contrib-sass");
 };
 
