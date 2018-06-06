@@ -102,6 +102,24 @@ module.exports = function(grunt) {
             }
         },
 
+        // Remove unused CSS and generate a main.css file.
+        uncss: {
+            devel: {
+                files: {
+                    "build/devel/css/main.css": ["build/devel/index.html", "build/devel/html/**/*.html"]
+                }
+            }
+        },
+
+        concat: {
+            // Concate all JS files of build/devel/js/ directory and its subdirectories
+            // and generate a main.js file.
+            devel: {
+                src: "build/devel/js/**/*.js",
+                dest: "build/devel/js/main.js"
+            }
+        },
+
         responsive_images: {
             devel: {
                 // An options property may be specified to override built-in defaults.
@@ -153,11 +171,58 @@ module.exports = function(grunt) {
                 dest: "build/devel/"
             }
         },
+
+        // Flag suspicious usage in programs written in JavaScript.
+        jshint: {
+            options: {
+                curly: true,
+                eqeqeq: true,
+                eqnull: true,
+                browser: true,
+                globals: {
+                    jQuery: true
+                },
+            },
+            target: ["gruntfile.js", "js/**/*.js"]
+        },
+
+        // Minifying HTML files.
+        htmlmin: {
+            release: {
+                options: {
+                    removeComments: true, // Strip HTML comments.
+
+                    // Collapse white space that contributes to text nodes in a document tree.
+                    collapseWhitespace: true,
+
+                    // Omit attribute values from boolean attributes.
+                    collapseBooleanAttributes: true
+                },
+                expand: true,
+                cwd: "build/devel/",
+                src: ["index.html", "html/**/*.html"],
+                dest: "build/release/"
+            }
+        },
+        
+        // Minifying CSS files.
+        cssmin: {
+            release: {
+                // In fact, there is only one CSS file (main.css) we need to minify.
+                src: "build/devel/css/main.css",
+                dest: "build/release/css/main.min.css"
+            }
+        },
     });
 
+    grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-responsive-images");
     grunt.loadNpmTasks("grunt-contrib-pug");
     grunt.loadNpmTasks("grunt-contrib-sass");
+    grunt.loadNpmTasks("grunt-contrib-concat");
+    grunt.loadNpmTasks("grunt-uncss");
+    grunt.loadNpmTasks("grunt-contrib-htmlmin");
+    grunt.loadNpmTasks("grunt-contrib-cssmin");
 };
 
