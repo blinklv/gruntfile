@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2018-06-06
+// Last Change: 2018-06-07
 //
 // The gruntfile.js for my Web development.  Many settings are personalized for me, but
 // how it works I will explain in README.md file.  So If you like it, you can copy this 
@@ -213,6 +213,25 @@ module.exports = function(grunt) {
                 dest: "build/release/css/main.min.css"
             }
         },
+
+        // Minifying JS files.
+        uglify: {
+            options: {
+                mangle: false,
+                compress: {
+                    // Discard calls to console.* functions. 
+                    drop_console: true
+                }
+            },
+            release: {
+                expand: true,
+                cwd: "build/devel/js/",
+                src: "**/*.js",
+                dest: "build/release/js/",
+                ext: ".min.js",
+                extDot: "last"
+            }
+        }
     });
 
     grunt.loadNpmTasks("grunt-contrib-jshint");
@@ -224,5 +243,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-uncss");
     grunt.loadNpmTasks("grunt-contrib-htmlmin");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
+    grunt.loadNpmTasks("grunt-contrib-uglify");
 };
 
