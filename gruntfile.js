@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2018-06-07
+// Last Change: 2018-06-08
 //
 // The gruntfile.js for my Web development.  Many settings are personalized for me, but
 // how it works I will explain in README.md file.  So If you like it, you can copy this 
@@ -99,6 +99,34 @@ module.exports = function(grunt) {
                 // Used to indicate where the period indicating the extension is located. 
                 // 'last' means the exntension begins after the last period.
                 extDot: "last"
+            }
+        },
+
+        // Sometimes, the css files of the vendor directory contain some external 
+        // relative url references. But they are based on their specific package 
+        // directory instead of your custom root directory. We will use the uncss to 
+        // remove unused CSS and generate a single css file (main.css); it will be 
+        // placed in a different directory (build/devel/css/). However, the relative 
+        // url references in the main.css are based on the original root path; it's not
+        // correct. The following task will replace any original relative url with
+        // a new one based on the root path, which gurantees finding resources correctly.
+        css_relative_url_replace: {
+            devel: {
+                options: {
+                    staticRoot: "build/devel/"
+                },
+                expand: true,
+                cwd: "build/devel/vendor/",
+                src: "**/*.css",
+                // The conventional example doesn't satisfy my need, which combines multiple
+                // source files and generate a signle target file. But I want to one
+                // target file corresponds one source file. It doesn't be permitted if
+                // I only set the dest field to a directory, but can work when I add
+                // the following rename function :)
+                dest: "build/devel/vendor/",
+                rename: function(dest, src) {
+                    return dest + src;
+                }
             }
         },
 
@@ -244,5 +272,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-htmlmin");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-css-relative-url-replace");
 };
 
