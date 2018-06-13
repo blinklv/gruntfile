@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2018-06-11
+// Last Change: 2018-06-13
 //
 // The gruntfile.js for my Web development.  Many settings are personalized for me, but
 // how it works I will explain in README.md file.  So If you like it, you can copy this 
@@ -36,7 +36,7 @@ module.exports = function(grunt) {
                     "index.html", "html/**/*.html",
                     "css/**/*.{css,css.map}", "!css/**/*.min.css",
                     "js/**/*.js", "!js/**/*.min.js",
-                    "font/**/*.{woff,woff2,eot,ttf,otf,svg}",
+                    "css/font/**/*.{woff,woff2,eot,ttf,otf,svg}",
                     // For bitmap, we need to resize and compress them. But for vector 
                     // images, we copy them to the destination directory directly.
                     "img/**/*.svg",
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
                     // HTML, CSS and JS files are handled by other tasks; we only 
                     // need to copy some auxiliary resources.
                     "vendor/**", "!vendor/**/*.js", "!vendor/**/*.css",
-                    "img/**", "font/**"
+                    "img/**", "css/font/**"
                     
                 ],
                 dest: "build/release/"
@@ -121,9 +121,9 @@ module.exports = function(grunt) {
         // correct. The following task will replace any original relative url with
         // a new one based on the root path, which gurantees finding resources correctly.
         css_relative_url_replace: {
-            devel: {
+            release: {
                 options: {
-                    staticRoot: "build/devel/"
+                    staticRoot: "build/devel/css/"
                 },
                 expand: true,
                 cwd: "build/devel/vendor/",
@@ -217,6 +217,7 @@ module.exports = function(grunt) {
                 eqeqeq: true,
                 eqnull: true,
                 browser: true,
+                esversion: 6, // Use ES6 as the JavaScript Syntax.
                 globals: {
                     jQuery: true
                 },
@@ -291,10 +292,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-uncss");
     grunt.loadNpmTasks("grunt-contrib-htmlmin");
     grunt.loadNpmTasks("grunt-contrib-cssmin");
-    grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-contrib-uglify-es");
     grunt.loadNpmTasks("grunt-css-relative-url-replace");
 
     grunt.registerTask("devel", ["pug", "sass", "jshint", "responsive_images", "copy:devel"]);
-    grunt.registerTask("release", ["devel", "htmlmin", "uncss", "cssmin", "concat", "uglify", "copy:release"]);
+    grunt.registerTask("release", ["devel", "css_relative_url_replace", "htmlmin", "uncss", "cssmin", "concat", "uglify", "copy:release"]);
 };
 
