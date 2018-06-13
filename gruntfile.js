@@ -225,6 +225,16 @@ module.exports = function(grunt) {
             target: ["gruntfile.js", "js/**/*.js"]
         },
 
+        // Process html files at build time to modify them depending on the release environment
+        processhtml: {
+            release: {
+                expand: true,
+                cwd: "build/devel/",
+                src: ["index.html", "html/**/*.html"],
+                dest: "build/devel/"
+            }
+        },
+
         // Minifying HTML files.
         htmlmin: {
             release: {
@@ -294,8 +304,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-cssmin");
     grunt.loadNpmTasks("grunt-contrib-uglify-es");
     grunt.loadNpmTasks("grunt-css-relative-url-replace");
+    grunt.loadNpmTasks("grunt-processhtml");
 
-    grunt.registerTask("devel", ["pug", "sass", "jshint", "responsive_images", "copy:devel"]);
-    grunt.registerTask("release", ["devel", "css_relative_url_replace", "htmlmin", "uncss", "cssmin", "concat", "uglify", "copy:release"]);
+    grunt.registerTask("devel", ["pug", "sass", "jshint", "responsive_images", "copy:devel"]); 
+    grunt.registerTask("release", ["devel", "css_relative_url_replace", "uncss", "cssmin", "concat", "uglify", "processhtml", "htmlmin", "copy:release"]);
 };
 
