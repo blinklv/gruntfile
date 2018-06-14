@@ -14,9 +14,6 @@ module.exports = function(grunt) {
 
     // Project configuration.
     grunt.initConfig({
-        // Project metadata is imported into the Grunt config from the project's package.json.
-        pkg: grunt.file.readJSON("package.json"),
-
         // Configure task-named properties. When a task is run, Grunt looks for 
         // its configuration under a property of the same name. 
         // NOTE: This anonymous object may contain any arbitrary data. As long as 
