@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2018-06-13
+// Last Change: 2018-06-14
 //
 // The gruntfile.js for my Web development.  Many settings are personalized for me, but
 // how it works I will explain in README.md file.  So If you like it, you can copy this 
@@ -290,6 +290,12 @@ module.exports = function(grunt) {
                     extDot: "last"
                 }]
             }
+        },
+
+        // Clean some build/ directory or its directories.
+        clean: {
+            devel: "build/devel",
+            release: "build/release"
         }
     });
 
@@ -305,8 +311,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-uglify-es");
     grunt.loadNpmTasks("grunt-css-relative-url-replace");
     grunt.loadNpmTasks("grunt-processhtml");
+    grunt.loadNpmTasks("grunt-contrib-clean");
 
-    grunt.registerTask("devel", ["pug", "sass", "jshint", "responsive_images", "copy:devel"]); 
-    grunt.registerTask("release", ["devel", "css_relative_url_replace", "uncss", "cssmin", "concat", "uglify", "processhtml", "htmlmin", "copy:release"]);
+    grunt.registerTask("devel", "Build the project for the development environment", 
+            ["pug", "sass", "jshint", "responsive_images", "copy:devel"]); 
+    grunt.registerTask("release", "Build the project for the release environment", 
+            ["devel", "css_relative_url_replace", "uncss", "cssmin", "concat", "uglify", "processhtml", "htmlmin", "copy:release"]);
+    grunt.registerTask("rebuild-devel", "Rebuild the project for the development environment", ["clean:devel", "devel"]);
+    grunt.registerTask("rebuild", "Rebuild the project for the release environment", ["clean", "release"]);
+    grunt.registerTask("default", "Build the project", ["release"]);
 };
 
