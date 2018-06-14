@@ -292,7 +292,7 @@ module.exports = function(grunt) {
             }
         },
 
-        // Clean some build/ directory or its directories.
+        // Clean the 'build/' directory or its directories.
         clean: {
             devel: "build/devel",
             release: "build/release"
