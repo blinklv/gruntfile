@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2018-06-14
+// Last Change: 2018-06-27
 //
 // The gruntfile.js for my Web development.  Many settings are personalized for me, but
 // how it works I will explain in README.md file.  So If you like it, you can copy this 
@@ -33,7 +33,7 @@ module.exports = function(grunt) {
                     "index.html", "html/**/*.html",
                     "css/**/*.{css,css.map}", "!css/**/*.min.css",
                     "js/**/*.js", "!js/**/*.min.js",
-                    "css/font/**/*.{woff,woff2,eot,ttf,otf,svg}",
+                    "font/**/*.ttf",
                     // For bitmap, we need to resize and compress them. But for vector 
                     // images, we copy them to the destination directory directly.
                     "img/**/*.svg",
@@ -52,7 +52,7 @@ module.exports = function(grunt) {
                     // HTML, CSS and JS files are handled by other tasks; we only 
                     // need to copy some auxiliary resources.
                     "vendor/**", "!vendor/**/*.js", "!vendor/**/*.css",
-                    "img/**", "css/font/**"
+                    "img/**", "font/**"
                     
                 ],
                 dest: "build/release/"
@@ -93,7 +93,10 @@ module.exports = function(grunt) {
                   // property and rule taking up one line. Although this style takes up many
                   // spaces, it's easier to debug and the cssmin task will reduce its size 
                   // in the release version.
-                  style: "expanded"
+                  style: "expanded",
+
+                  // No sourcemaps.
+                  sourcemap: "none"
                 },
                 expand: true,
                 cwd: "sass/",
@@ -106,6 +109,15 @@ module.exports = function(grunt) {
                 // Used to indicate where the period indicating the extension is located. 
                 // 'last' means the exntension begins after the last period.
                 extDot: "last"
+            }
+        },
+
+        // Generate a CSS file which contains '@font-face' definitions for your 
+        // local TTF files downloaded from Google Fonts.
+        google_fontface: {
+            devel: {
+                src: "build/devel/font/**/*.ttf",
+                dest: "build/devel/css/font.css"
             }
         },
 
@@ -309,9 +321,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-css-relative-url-replace");
     grunt.loadNpmTasks("grunt-processhtml");
     grunt.loadNpmTasks("grunt-contrib-clean");
+    grunt.loadNpmTasks("grunt-google-fontface");
 
     grunt.registerTask("devel", "Build the project for the development environment", 
-            ["pug", "sass", "jshint", "responsive_images", "copy:devel"]); 
+            ["copy:devel", "pug", "sass", "google_fontface", "jshint", "responsive_images"]); 
     grunt.registerTask("release", "Build the project for the release environment", 
             ["devel", "css_relative_url_replace", "uncss", "cssmin", "concat", "uglify", "processhtml", "htmlmin", "copy:release"]);
     grunt.registerTask("rebuild-devel", "Rebuild the project for the development environment", ["clean:devel", "devel"]);
