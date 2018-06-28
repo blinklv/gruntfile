@@ -20,6 +20,10 @@ module.exports = function(grunt) {
         // properties don't conflict with properties the tasks require, they will
         // be otherwise ignored.
         
+        // Watch all developing files and synchronize them to 'build/devel' directory. 
+        // Deleting a file/directory can't be synchronized currently, but it won't 
+        // affect your development. In the end, you should use the 'rebuild' task to
+        // guarantee the release version of your project is clean.
         watch: {
             options: {
                 spawn: false
