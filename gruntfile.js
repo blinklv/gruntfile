@@ -46,7 +46,7 @@ module.exports = function(grunt) {
             },
             font: {
                 files: ["font/*", "font/**/*.ttf"],
-                tasks: ["copy:font", "google_fontface"]
+                tasks: ["google_fontface", "copy:font"]
             },
             img: {
                 files: ["img/**/*.{jpg,jpeg,png,gif,webp,svg}"],
@@ -181,8 +181,8 @@ module.exports = function(grunt) {
         // local TTF files downloaded from Google Fonts.
         google_fontface: {
             devel: {
-                src: "build/devel/font/**/*.ttf",
-                dest: "build/devel/css/font.css"
+                src: "font/**/*.ttf",
+                dest: "css/font.css"
             }
         },
 
@@ -390,7 +390,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
 
     grunt.registerTask("devel", "Build the project for the development environment", 
-            ["copy:devel", "pug", "sass", "google_fontface", "jshint", "responsive_images"]); 
+            ["pug", "sass", "google_fontface", "jshint", "responsive_images", "copy:devel"]); 
     grunt.registerTask("release", "Build the project for the release environment", 
             ["devel", "css_relative_url_replace", "uncss", "cssmin", "concat", "uglify", "processhtml", "htmlmin", "copy:release"]);
     grunt.registerTask("rebuild-devel", "Rebuild the project for the development environment", ["clean:devel", "devel"]);
