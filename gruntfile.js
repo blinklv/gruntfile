@@ -3,7 +3,7 @@
 // Author: blinklv <blinklv@icloud.com>
 // Create Time: 2017-03-22
 // Maintainer: blinklv <blinklv@icloud.com>
-// Last Change: 2018-06-27
+// Last Change: 2018-06-28
 //
 // The gruntfile.js for my Web development.  Many settings are personalized for me, but
 // how it works I will explain in README.md file.  So If you like it, you can copy this 
@@ -19,6 +19,44 @@ module.exports = function(grunt) {
         // NOTE: This anonymous object may contain any arbitrary data. As long as 
         // properties don't conflict with properties the tasks require, they will
         // be otherwise ignored.
+        
+        watch: {
+            options: {
+                spawn: false
+            },
+            pug: {
+                files: ["index.pug", "pug/**/*.pug"],
+                tasks: ["pug"]
+            },
+            html: {
+                files: ["index.html", "html/**/*.html"],
+                tasks: ["copy:html"]
+            },
+            sass: {
+                files: ["sass/**/*.{sass,scss}"],
+                tasks: ["sass"]
+            },
+            css: {
+                files: ["css/**/*.{css,css.map}", "!css/**/*.min.css"],
+                tasks: ["copy:css"]
+            },
+            js: {
+                files: ["js/**/*.js", "!js/**/*.min.js"],
+                tasks: ["jshint", "copy:js"]
+            },
+            font: {
+                files: ["font/*", "font/**/*.ttf"],
+                tasks: ["copy:font", "google_fontface"]
+            },
+            img: {
+                files: ["img/**/*.{jpg,jpeg,png,gif,webp,svg}"],
+                tasks: ["responsive_images", "copy:img"]
+            },
+            vendor: {
+                files: ["vendor/**", "!vendor/**/*.min.*"],
+                tasks: ["copy:vendor"]
+            }
+        },
 
         copy: {
             // Multi-tasks can hae multiple configurations. The copy task
@@ -56,6 +94,33 @@ module.exports = function(grunt) {
                     
                 ],
                 dest: "build/release/"
+            },
+
+
+            // The following targets are mainly used in the watch task.
+            html: {
+                src: ["index.html", "html/**/*.html"],
+                dest: "build/devel/"
+            },
+            css: {
+                src: ["css/**/*.{css,css.map}", "!css/**/*.min.css"],
+                dest: "build/devel/"
+            },
+            js: {
+                src: ["js/**/*.js", "!js/**/*.min.js"],
+                dest: "build/devel/"
+            },
+            font: {
+                src: "font/**/*.ttf",
+                dest: "build/devel/"
+            },
+            img: {
+                src: "img/**/*.svg",
+                dest: "build/devel/"
+            },
+            vendor: {
+                src: ["vendor/**", "!vendor/**/*.min.*"],
+                dest: "build/devel/"
             }
         },
 
@@ -322,6 +387,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-processhtml");
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-google-fontface");
+    grunt.loadNpmTasks("grunt-contrib-watch");
 
     grunt.registerTask("devel", "Build the project for the development environment", 
             ["copy:devel", "pug", "sass", "google_fontface", "jshint", "responsive_images"]); 

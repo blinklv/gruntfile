@@ -15,7 +15,7 @@
     "grunt-contrib-pug": "^1.0.0",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
-    "grunt-contrib-watch": "^1.0.0",
+    "grunt-contrib-watch": "^1.1.0",
     "grunt-css-relative-url-replace": "^1.0.0",
     "grunt-google-fontface": "^0.1.1",
     "grunt-processhtml": "^0.4.1",
