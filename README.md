@@ -43,4 +43,36 @@ The meaning of the above graph is same as the previous section. I only list shor
 
 **NOTE**: Although the `release` task will generate the `build/devel` folder, you shouldn't use it because its contents have been polluted. You can use the `rebuild-devel` task to solve this problem.
 
+### Rebuild Devel
+
+```bash
+grunt rebuild-devel
+```
+
+Clean the old `build/devel` folder, then invoke the `devel` task.
+
+### Rebuild
+
+```bash
+grunt rebuild
+```
+
+Clean the old `build` folder, then invoke the `release` task.
+
+### Watch
+
+```bash
+grunt watch
+```
+
+In your work directory, the following files or folders will be watched.
+
+- `index.html` `index.pug`
+- `html/` `pug/`
+- `sass/` `css/`
+- `js/`
+- `font/`
+- `img/`
+- `vendor/`
+
 [Gruntfile]: https://gruntjs.com/sample-gruntfile
