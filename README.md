@@ -21,4 +21,26 @@ A frameless rectangle represents a file or a directory which contains files of t
 - [jshint](https://github.com/gruntjs/grunt-contrib-jshint): Validate files with JSHint
 - [responsive image](https://github.com/andismith/grunt-responsive-images): Produce images at different sizes for responsive websites
 
+### Release
+
+```bash
+grunt release
+```
+
+The `release` task will invoke the `devel` task at first, then process files in the `build/devel` folder and place results in the `build/release` folder. The mapping as follows:
+
+![Release](readme/release.svg)
+
+The meaning of the above graph is same as the previous section. I only list short descriptions of tasks haven't shown in the previous section.
+
+- [process html](https://github.com/dciccale/grunt-processhtml): Process html files at build time to modify them depending on the release environment
+- [htmlmin](https://github.com/gruntjs/grunt-contrib-htmlmin): Minify HTML
+- [concat](https://github.com/gruntjs/grunt-contrib-concat): Concatenate files
+- [uglify](https://github.com/gruntjs/grunt-contrib-uglify): Minify files with UglifyJS
+- [uncss](https://github.com/uncss/grunt-uncss): A grunt task for removing unused CSS from your projects
+- [cssmin](https://github.com/gruntjs/grunt-contrib-cssmin): Compress CSS files
+- [relative url replace](https://github.com/gbouthenot/grunt-css-relative-url-replace): Grunt task to replace css urls with relative path
+
+**NOTE**: Although the `release` task will generate the `build/devel` folder, you shouldn't use it because its contents have been polluted. You can use the `rebuild-devel` task to solve this problem.
+
 [Gruntfile]: https://gruntjs.com/sample-gruntfile
